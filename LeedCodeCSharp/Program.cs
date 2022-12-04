@@ -4,7 +4,7 @@
     {
         public static void Main(string[] args)
         {
-            AddTwoNumbers twoSum = new AddTwoNumbers();
+            LongestSubstringWithoutRepeatingCharacters twoSum = new LongestSubstringWithoutRepeatingCharacters();
         }
     } 
 }
