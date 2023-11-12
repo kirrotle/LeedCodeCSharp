@@ -10,29 +10,75 @@ namespace LeedCodeCSharp
     {
         public RegularExpressionMatching()
         {
-            IsMatch("aa","a*");
         }
 
         public bool IsMatch(string s, string p)
         {
-            List<string> pattern_List = new List<string>();
-            for(int pattern_Num = 0 ; pattern_Num < p.Length ; pattern_Num++)
+            int sIndex = s.Length - 1;
+            int pIndex = p.Length - 1;
+            for(int i = 0 ;i<(sIndex<=pIndex ? sIndex : pIndex) ;i++ )
             {
-                if(p[pattern_Num+1] == '*')
+                if( s[sIndex] == p[pIndex] )
                 {
-                    pattern_List.Add(p.Substring(pattern_Num,2));
-                    pattern_Num++;
+                    sIndex--;
+                    pIndex--;
+                    break;
                 }
                 else
                 {
-                    pattern_List.Add(p.Substring(pattern_Num, 1));
+                    if( p[pIndex] != '*' || p[pIndex] != '.' )
+                    {
+                        
+                    }
                 }
             }
-            
-            pattern_List.Select(x=>{Console.WriteLine(x);return x;}).ToList();
-            
-            
-            return false;
+
+            for( int i = 0 ; i < ( sIndex <= pIndex ? sIndex : pIndex ) 
+            ; i++ )
+            {
+                if( pIndex - 1 < i )
+                    return false;
+                if( s[i] != p[i] )
+                {
+                    if( p[i] == 46 )//.
+                    {
+                        continue;
+                    }
+                    else if( p[i] == 42 )//*
+                    {
+                        CheckMuti(ref i , s , p);
+                    }
+                    //*可以是0~無限多個
+                    else if( p[i + 1] == 42 )
+                    {
+                        i = i + 1;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+
+        }
+
+        public void CheckMuti(ref int index,string s, string p)
+        {
+            if( p[index-1] == 46 )//.
+            {
+                index = s.Length - 1;
+                return;
+            }
+
+            for( int i = index ; i<s.Length ;i++ )
+            {
+                if( s[i] != p[index - 1] )
+                {
+                    index = i-1;
+                } 
+            }
         }
     }
 }
